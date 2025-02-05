@@ -45,6 +45,22 @@ def delete(id):
         
     except:
         return "danger danfer danger"
+    
+    
+@app.route('/update/<int:id>', methods = ['GET', 'POST'])
+def update(id):
+    task_to_upadate= Todo.query.get_or_404(id)
+    
+    if request.method =='POST':
+        task_to_upadate.content = request.form['content']
+        
+        try:
+            db.session.commit()
+            return redirect('/')
+        except:
+            return "problem"
+    else:
+        return render_template('update.html', task = task_to_upadate)
 
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.run(debug = True, port=8000)
